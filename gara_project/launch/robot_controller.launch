@@ -1,7 +1,15 @@
 
 <launch>
+
 	<param name="/gara/robot_wheel_separation" type="double" value="0.135" />	
 	<param name="/gara/robot_wheel_radious" type="double" value="0.0325" />	
+	<param name="/gara/max_speed" type="double" value="10" />	
+	<param name="/gara/min_duty" type="double" value="0" />	
+	<param name="/gara/max_duty" type="double" value="100" />	
+	<param name="/gara/can_id_left" type="int" value="0" />	
+	<param name="/gara/invert_left" type="int" value="0" />	
+	<param name="/gara/can_id_right" type="int" value="1" />	
+	<param name="/gara/invert_right" type="int" value="1" />	
 
 	<node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
     		<param name="port" value="/dev/ttyACM0"/>
@@ -9,3 +17,4 @@
 	</node>
 
 </launch>
+
