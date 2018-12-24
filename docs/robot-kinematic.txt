@@ -1,0 +1,29 @@
+vl = angular velocity left wheel.
+vr = angular velocity right wheel.
+R  = radious of the wheel.
+L  = disntance between the wheels.
+v  = linear velocity of the robot.
+w  = angular velocity of the robot.
+
+(x,y,theta) = pose of the robot.
+
+x'  	= (R/2) * (vr+vl) * cos(tetha)
+y'  	= (R/2) * (vr+vl) * sin(tetha)
+theta' 	= (R/L) * (vr-vl)
+
+
+x'  	= v * cos(tetha)
+y'  	= v * sin(tetha)
+theta' 	= w
+
+v	=  (R/2) * (vr + vl)
+w	=  (R/L) * (vr - vl)
+
+resolviendo este sistema de ecuaciones, incognitas (vr,vl)
+
+vr 	= ( (2v) + (wL) ) / (2R)
+vl 	= ( (2v) - (wL) ) / (2R)
+
+
+
+
