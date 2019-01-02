@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<robot name="gara" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find gara_simulation)/urdf/gara.gazebo" />
+
+  <!-- Link robot footprint -->
+
+  <!--Robot mesh importing-->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://gara_simulation/meshes/gara_v2_form.dae"/>
+      </geometry>
+      <origin xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.3"/>
+      <geometry>
+        <cylinder length="0.8" radius="0.25"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="20"/>
+      <origin xyz="-0.025 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+
+  <!--Center Wheel of the Robot FIXED-->
+  <link name="center_wheel">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+     <origin xyz="0 0 0"/>
+     <geometry>
+       <sphere radius="0.1"/>
+     </geometry>
+    </collision>
+    <inertial>
+     <mass value="1"/>
+     <inertia ixx="0.004" ixy="0.0" ixz="0.0" iyy="0.004" iyz="0.0" izz="0.004"/>
+    </inertial>
+  </link>
+  <joint name="center_wheel_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="center_wheel"/>
+    <origin rpy="0 0 0" xyz="-0.12 0 -0.1"/>
+  </joint>
+  <gazebo reference="center_wheel">
+    <kp>10000000.0</kp>
+    <kd>1</kd>
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <maxVel>0.0</maxVel>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+
+  <!--Other Wheels of the Robot-->
+  <xacro:macro name="wheel" params="prefix suffix reflect">
+    <link name="${prefix}_${suffix}_wheel">
+      <visual>
+        <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+        <geometry>
+          <cylinder length="0.03" radius="0.1"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+      <collision>
+       <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+       <geometry>
+         <cylinder length="0.03" radius="0.1"/>
+       </geometry>
+     </collision>
+     <inertial>
+       <mass value="1"/>
+       <inertia ixx="0.002575" ixy="0.0" ixz="0.0"
+         iyy="0.005" iyz="0.0"
+         izz="0.002575"/>
+     </inertial>
+    </link>
+    <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
+      <axis rpy="0 0 0" xyz="0 1 0"/>
+      <parent link="base_link"/>
+      <child link="${prefix}_${suffix}_wheel"/>
+      <origin rpy="3.14159 0 0" xyz="0.07 ${reflect*0.22} -0.1"/>
+    </joint>
+
+  <!-- This block provides the simulator (Gazebo) with information on a few additional
+    physical properties. See http://gazebosim.org/tutorials/?tut=ros_urdf for more-->
+    <gazebo reference="${prefix}_${suffix}_wheel">
+      <mu1 value="200.0"/>
+      <mu2 value="100.0"/>
+      <kp value="10000000.0" />
+      <kd value="1.0" />
+      <material>Gazebo/Grey</material>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:wheel prefix="right" suffix="back" reflect="1"/>
+  <xacro:wheel prefix="left" suffix="back" reflect="-1"/>
+
+  <!-- Hokuyo Laser -->
+  <link name="hokuyo_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://gara_simulation/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="-0.1 0 0.78" rpy="0 0 3.1415"/>
+    <parent link="base_link"/>
+    <child link="hokuyo_link"/>
+  </joint>
+
+  <!-- Camera -->
+  <xacro:macro name="camerali" params="camera_link">
+  <link name="camera_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="${camera_link} ${camera_link} ${camera_link}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="${camera_link} ${camera_link} ${camera_link}"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="-0.2 0 0.325" rpy="0 0 3.1415"/>
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>
+  </xacro:macro>
+
+  <xacro:camerali camera_link="0.05" />
+  <link name='camera_rgbd_frame'></link>
+
+  <joint name="camera_rgbd_joint" type="fixed" >
+    <parent link="camera_link"/>
+    <child link="camera_rgbd_frame"/>
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+  </joint>
+
+  <!--IMU-->
+  <link name='imu_link'></link>
+
+  <joint name="imu_joint" type="fixed" >
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!--Gazeo plugin to link it to ROS-->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+  </gazebo>
+</robot>
