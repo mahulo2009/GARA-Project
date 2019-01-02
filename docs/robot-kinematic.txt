@@ -7,6 +7,17 @@ w  = angular velocity of the robot.
 
 (x,y,theta) = pose of the robot.
 
+====
+
+Forward kinematic: given v and w found vr and vl
+
+vl 	= ( (2v) - (wL) ) / (2R)
+vr 	= ( (2v) + (wL) ) / (2R)
+
+====
+
+Inverse kinematic: given vr and vl found (x,y,theta) and (v,w)
+
 x'  	= (R/2) * (vr+vl) * cos(tetha)
 y'  	= (R/2) * (vr+vl) * sin(tetha)
 theta' 	= (R/L) * (vr-vl)
@@ -19,10 +30,136 @@ theta' 	= w
 v	=  (R/2) * (vr + vl)
 w	=  (R/L) * (vr - vl)
 
-resolviendo este sistema de ecuaciones, incognitas (vr,vl)
+====
 
-vr 	= ( (2v) + (wL) ) / (2R)
-vl 	= ( (2v) - (wL) ) / (2R)
+Kalman Filter
+
+x = robot state vector
+F = state transtion function
+P = convariance state
+Q = 
+z = measuremente
+H = mesasuremente function
+y = residual
+S = Measuremente noise
+K = Kalman gain
+
+
+==State Prediction
+
+x_k = F_k * x_-1 + ¿? *u_-1
+P_k = F_k * P_k-1 * F_k_T + Q_k
+
+==Measuremente Update
+y= z- H x' 
+S = H P' Ht + R
+
+==Kalman Gain
+K = P' Ht S-1
+
+==New state and convariance
+
+x = x' + K y
+P = ( I-K H ) P' 
+
+---------------------------------Differential Wheeled Robot-----------------------------
+
+x_k = [ x  y theta ]
+
+u_k = [ VL VR]
+
+
+==========State Prediction
+
+==State preduction function
+
+G(u_k, x_k-1) = [ x_k-1 y_k-1 tetha_k-1 ] +  
+
+	[ 
+		[ (R/2)cos(tetha_k-1)	(R/2)cos(tetha_k-1) ] 
+		[ (R/2)sin(tetha_k-1) 	(R/2)sin(tetha_k-1) ]
+	 	[ -R/L 			R/L		]
+ 
+	] * [ VL VR] * dt
+
+
+==State transition function
+
+F_k = dG(u_k, x_k-1)/dx_k-1
+
+F_k = 	[ 	
+		[ 1 	0 	( -VL * (R/2) * sin (tetha_k-1) - VR (R/2) sin (tetha_k-1) 	]
+		[ 0 	1 	(  VL * (R/2) * cos (tetha_k-1) + VR (R/2) cos (tetha_k-1) 	]
+		[ 0	0	1							]
+	]
+
+x_k = Fk * x_k-1
+
+==Covariance of the model
+
+M_k = 	[ 
+		[ (alfa1 * VL + alfa2 * VR) 0 ]  
+		[ 0 (alfa1 * VL + alfa2 * VR) ] 
+	]
+
+V_k = dG(u_k, x_k-1)/du_k
+
+
+V_k = [ 
+	[ (R/2)cos(tetha_k-1) 	(R/2)cos(tetha_k-1) ] 
+	[ (R/2)sin(tetha_k-1) 	(R/2)sin(tetha_k-1) ] 
+	[ -R/L 			R/L		] 
+    ]
+
+Q_k = V_k M_k V_kT
+
+
+convariance state (initial guess)
+
+P_k_0 = [
+		[1	0	0]
+		[0	1	0]
+		[0	0	1]
+	]
+
+P_k = F_k * P_k * F_kT + Q_k
+
+
+==========Measuremente Update
+
+==Measurement Function (values are read directly from sensors)
+
+H = 	[ 
+		[ 1 	0 	0 ] 
+		[ 0 	1 	0 ] 
+		[ 0 	0 	1 ] 
+	] 
+
+
+==Measurement Covariance
+
+R = 	[ 
+		[ sigmax^2 	0		0 ]  
+		[ 0		sigmay^2 	0 ] 
+		[ 0		0		sigmatheta^2] 
+	]
+
+===Measuremente Update
+
+y_k = z_k - H * x_k
+
+S =  H * P_k * HT + R
+
+===Kalman Gain
+
+K_k =  P_k * HT * S-1
+
+===Posterior
+
+x_k+1 = x_k * K_k * y_k
+
+P_k+1 = (I-K*H) * P_k
+
 
 
 

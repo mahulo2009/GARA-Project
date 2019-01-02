@@ -35,10 +35,10 @@
     "controls-laserstate": "on",
     "ignoreSAD": "0",
     "param-autoexposure-setpoint": "1536",
-    "param-censusenablereg-udiameter": "9",
-    "param-censusenablereg-vdiameter": "9",
-    "param-censususize": "9",
-    "param-censusvsize": "9",
+    "param-censusenablereg-udiameter": "6",
+    "param-censusenablereg-vdiameter": "7",
+    "param-censususize": "6",
+    "param-censusvsize": "7",
     "param-depthclampmax": "65536",
     "param-depthclampmin": "0",
     "param-depthunits": "1000",
@@ -88,7 +88,6 @@
     "param-zunits": "1000",
     "stream-depth-format": "Z16",
     "stream-fps": "30",
-    "stream-height": "480",
-    "stream-ir-format": "R8L8",
-    "stream-width": "848"
+    "stream-height": "720",
+    "stream-width": "1280"
 }
