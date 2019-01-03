@@ -4,6 +4,7 @@
 
 	<node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" >
 		<param name="scan_height" value="3"/> 
+		<param name="range_max" value="4"/>
 		<param name="output_frame_id" value="base_link"/>
 		<remap from="image" to="/camera/depth/image_rect_raw" />
 	</node>
@@ -57,11 +58,14 @@
 
 			<!-- Minimum visual inliers to accept loop closure -->
       <param name="Vis/MinInliers" type="string" value="15"/> 
+      <param name="Vis/MaxDepth" value="4.0"/>
 
       <!-- Set to false to avoid saving data when robot is not moving -->
       <param name="Mem/NotLinkedNodesKept" type="string" value="false"/>
 
 		  <param name="Grid/FromDepth" type="string" value="true"/>
+
+<param name="Grid/DepthMax" value="4.0"/>
 
     </node> 
   </group>
