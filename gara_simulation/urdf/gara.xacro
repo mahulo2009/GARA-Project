@@ -5,11 +5,21 @@
 
   <!-- Link robot footprint -->
 
+  <link name="base_link"></link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="chassis" />
+  </joint>
+
+
+
   <!--Robot mesh importing-->
-  <link name="base_link">
+  <link name="chassis">
     <visual>
       <geometry>
-        <mesh filename="package://gara_simulation/meshes/gara_v2_form.dae"/>
+        <mesh filename="package://gara_simulation/meshes/gara.dae"/>
       </geometry>
       <origin xyz="0 0 0"/>
     </visual>
@@ -46,11 +56,13 @@
      <inertia ixx="0.004" ixy="0.0" ixz="0.0" iyy="0.004" iyz="0.0" izz="0.004"/>
     </inertial>
   </link>
+
   <joint name="center_wheel_joint" type="fixed">
-    <parent link="base_link"/>
+    <parent link="chassis"/>
     <child link="center_wheel"/>
     <origin rpy="0 0 0" xyz="-0.12 0 -0.1"/>
   </joint>
+
   <gazebo reference="center_wheel">
     <kp>10000000.0</kp>
     <kd>1</kd>
@@ -85,7 +97,7 @@
     </link>
     <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
       <axis rpy="0 0 0" xyz="0 1 0"/>
-      <parent link="base_link"/>
+      <parent link="chassis"/>
       <child link="${prefix}_${suffix}_wheel"/>
       <origin rpy="3.14159 0 0" xyz="0.07 ${reflect*0.22} -0.1"/>
     </joint>
@@ -130,7 +142,7 @@
   <joint name="hokuyo_joint" type="fixed">
     <axis xyz="0 1 0" />
     <origin xyz="-0.1 0 0.78" rpy="0 0 3.1415"/>
-    <parent link="base_link"/>
+    <parent link="chassis"/>
     <child link="hokuyo_link"/>
   </joint>
 
@@ -162,7 +174,7 @@
   <joint name="camera_joint" type="fixed">
     <axis xyz="0 1 0" />
     <origin xyz="-0.2 0 0.325" rpy="0 0 3.1415"/>
-    <parent link="base_link"/>
+    <parent link="chassis"/>
     <child link="camera_link"/>
   </joint>
   </xacro:macro>
@@ -180,7 +192,7 @@
   <link name='imu_link'></link>
 
   <joint name="imu_joint" type="fixed" >
-    <parent link="base_link"/>
+    <parent link="chassis"/>
     <child link="imu_link"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
   </joint>
@@ -191,4 +203,5 @@
       <robotNamespace>/</robotNamespace>
     </plugin>
   </gazebo>
+
 </robot>

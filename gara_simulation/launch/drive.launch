@@ -1,4 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <launch>
+
   <arg name="model" default="$(find gara_simulation)/urdf/gara.xacro"/>
 
   <include file="$(find gara_simulation)/launch/gara.launch"/>
@@ -22,6 +25,8 @@
   <!--RVIZ launch-->
   <arg name="rvizconfig" default="$(find gara_simulation)/config/gara.rviz" />
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+
   <!-- Spawn a robot into Gazebo -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model gara" />
+
 </launch>

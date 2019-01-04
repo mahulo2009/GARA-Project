@@ -18,7 +18,7 @@
       <torque>10</torque>
       <commandTopic>gara/cmd_vel</commandTopic>
       <odometryTopic>gara/odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
+      <odometryFrame>gara/odom</odometryFrame>
       <robotBaseFrame>base_link</robotBaseFrame>
     </plugin>
   </gazebo>
@@ -54,7 +54,7 @@
         </noise>
       </ray>
       <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-        <topicName>/gara/laser/scan</topicName>
+        <topicName>gara/scan</topicName>
         <frameName>hokuyo_link</frameName>
       </plugin>
     </sensor>
@@ -85,11 +85,11 @@
       	<alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
         <cameraName>camera1</cameraName>
-				<frameName>camera_rgbd_frame</frameName>
-        <imageTopicName>rgb/image_raw</imageTopicName>
-				<depthImageTopicName>depth/image_raw</depthImageTopicName>
+	<frameName>camera_rgbd_frame</frameName>
+        <imageTopicName>/camera/color/image_rect_color</imageTopicName>
+	<depthImageTopicName>/camera/depth/image_rect_raw</depthImageTopicName>
         <pointCloudTopicName>depth/points</pointCloudTopicName>
-        <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+        <cameraInfoTopicName>/camera/color/camera_info</cameraInfoTopicName>
         <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
         <pointCloudCutoff>0.5</pointCloudCutoff>
         <hackBaseline>0.07</hackBaseline>
@@ -126,4 +126,5 @@
       <pose>0 0 0 0 0 0</pose>
     </sensor>
   </gazebo>
+
 </robot>
