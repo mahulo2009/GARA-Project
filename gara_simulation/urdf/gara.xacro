@@ -1,207 +1,285 @@
 <?xml version="1.0"?>
 <robot name="gara" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find gara_simulation)/urdf/gara.gazebo" />
+	<xacro:include filename="$(find gara_simulation)/urdf/gara.gazebo" />
 
-  <!-- Link robot footprint -->
+	<gazebo reference="chassis">
+  		<material>Gazebo/Black</material>
+	</gazebo>
 
-  <link name="base_link"></link>
+	<!-- Base Link -->
+  	<link name="base_link"></link>
 
-  <joint name="base_link_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="base_link"/>
-    <child link="chassis" />
-  </joint>
+	<!--Robot chassis Joint-->
+  	<joint name="base_link_joint" type="fixed">
+    		<origin xyz="0 0 0" rpy="0 0 0" />
+    		<parent link="base_link"/>
+    		<child link="chassis" />
+  	</joint>
+
+	<!--Robot chassis Link-->
+  	<link name="chassis">
+    		<visual>
+			<!--  TODO
+      			<geometry>
+        			<mesh filename="package://gara_simulation/meshes/gara.dae"/>
+      			</geometry>
+			-->
+			<origin rpy="0 0 0" xyz="0 0 0.0"/>
+			<geometry>
+        			<cylinder length="0.018" radius="0.257"/>
+      			</geometry>
+    		</visual>
 
 
+    		<collision>
+      			<origin rpy="0 0 0" xyz="0 0 0.0"/>
+      			<geometry>
+        			<cylinder length="0.018" radius="0.257"/>
+      			</geometry>
+    		</collision>
 
-  <!--Robot mesh importing-->
-  <link name="chassis">
-    <visual>
-      <geometry>
-        <mesh filename="package://gara_simulation/meshes/gara.dae"/>
-      </geometry>
-      <origin xyz="0 0 0"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.3"/>
-      <geometry>
-        <cylinder length="0.8" radius="0.25"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <mass value="20"/>
-      <origin xyz="-0.025 0 0"/>
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
-    </inertial>
-  </link>
 
-  <!--Center Wheel of the Robot FIXED-->
-  <link name="center_wheel">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.1"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <collision>
-     <origin xyz="0 0 0"/>
-     <geometry>
-       <sphere radius="0.1"/>
-     </geometry>
-    </collision>
-    <inertial>
-     <mass value="1"/>
-     <inertia ixx="0.004" ixy="0.0" ixz="0.0" iyy="0.004" iyz="0.0" izz="0.004"/>
-    </inertial>
-  </link>
+    		<inertial>
+      			<mass value="20"/>
+      			<origin xyz="0 0 0"/>
+      			<inertia ixx="0.330785" ixy="0.0" ixz="0.0" iyy="0.330785" iyz="0.0" izz="0.66049"/>
+    		</inertial>
 
-  <joint name="center_wheel_joint" type="fixed">
-    <parent link="chassis"/>
-    <child link="center_wheel"/>
-    <origin rpy="0 0 0" xyz="-0.12 0 -0.1"/>
-  </joint>
+  	</link>
 
-  <gazebo reference="center_wheel">
-    <kp>10000000.0</kp>
-    <kd>1</kd>
-    <mu1>0.1</mu1>
-    <mu2>0.1</mu2>
-    <maxVel>0.0</maxVel>
-    <minDepth>0.001</minDepth>
-  </gazebo>
+  	<!--Caster Joint-->
+  	<joint name="center_wheel_joint" type="fixed">
+    		<parent link="chassis"/>
+    		<child link="center_wheel"/>
+		<axis xyz="0 0 0" rpy="0 0 0">
+		</axis>
+		<origin xyz="0.14 0.0 -0.067" rpy="0 0 0"/>
+		<limit effort="10000" velocity="1000"/>
+  	</joint>
 
-  <!--Other Wheels of the Robot-->
-  <xacro:macro name="wheel" params="prefix suffix reflect">
-    <link name="${prefix}_${suffix}_wheel">
-      <visual>
-        <origin rpy="1.57075 0 0" xyz="0 0 0"/>
-        <geometry>
-          <cylinder length="0.03" radius="0.1"/>
-        </geometry>
-        <material name="black"/>
-      </visual>
-      <collision>
-       <origin rpy="1.57075 0 0" xyz="0 0 0"/>
-       <geometry>
-         <cylinder length="0.03" radius="0.1"/>
-       </geometry>
-     </collision>
-     <inertial>
-       <mass value="1"/>
-       <inertia ixx="0.002575" ixy="0.0" ixz="0.0"
-         iyy="0.005" iyz="0.0"
-         izz="0.002575"/>
-     </inertial>
-    </link>
-    <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
-      <axis rpy="0 0 0" xyz="0 1 0"/>
-      <parent link="chassis"/>
-      <child link="${prefix}_${suffix}_wheel"/>
-      <origin rpy="3.14159 0 0" xyz="0.07 ${reflect*0.22} -0.1"/>
-    </joint>
+  	<!--Caster Link-->
+  	<link name="center_wheel">
 
-  <!-- This block provides the simulator (Gazebo) with information on a few additional
-    physical properties. See http://gazebosim.org/tutorials/?tut=ros_urdf for more-->
-    <gazebo reference="${prefix}_${suffix}_wheel">
-      <mu1 value="200.0"/>
-      <mu2 value="100.0"/>
-      <kp value="10000000.0" />
-      <kd value="1.0" />
-      <material>Gazebo/Grey</material>
-    </gazebo>
-  </xacro:macro>
+    		<visual>
+      			<origin xyz="0.0 0 0" rpy="0 0 0"/>
+      			<geometry>
+        			<sphere radius="0.058"/>
+      			</geometry>
+      			<material name="black"/>
+    		</visual>
 
-  <xacro:wheel prefix="right" suffix="back" reflect="1"/>
-  <xacro:wheel prefix="left" suffix="back" reflect="-1"/>
+    		<collision>
+      			<origin xyz="0.0 0 0" rpy="0 0 0"/>
+     			<geometry>
+        			<sphere radius="0.058"/>
+     			</geometry>
+    		</collision>
 
-  <!-- Hokuyo Laser -->
-  <link name="hokuyo_link">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.1 0.1 0.1"/>
-      </geometry>
-    </collision>
 
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://gara_simulation/meshes/hokuyo.dae"/>
-      </geometry>
-    </visual>
+    		<inertial>
+     			<mass value="1"/>
+     			<inertia ixx="0.004" ixy="0.0" ixz="0.0" iyy="0.004" iyz="0.0" izz="0.004"/>
+    		</inertial>
 
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-    </inertial>
-  </link>
 
-  <joint name="hokuyo_joint" type="fixed">
-    <axis xyz="0 1 0" />
-    <origin xyz="-0.1 0 0.78" rpy="0 0 3.1415"/>
-    <parent link="chassis"/>
-    <child link="hokuyo_link"/>
-  </joint>
+  	</link>
 
-  <!-- Camera -->
-  <xacro:macro name="camerali" params="camera_link">
-  <link name="camera_link">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-    <box size="${camera_link} ${camera_link} ${camera_link}"/>
-      </geometry>
-    </collision>
+	<!-- Left Wheel Joint  -->
+	<joint name="left_wheel_hinge" type="continuous" >
+		<parent link="chassis"/>
+		<child link="left_wheel"/>
+		<axis xyz="0 1 0" rpy="0 0 0">
+		</axis>
+		<origin xyz="-0.182 0.285 0" rpy="0 0 0"/>
+		<limit effort="10000" velocity="1000"/>
+	</joint>
 
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-    <box size="${camera_link} ${camera_link} ${camera_link}"/>
-      </geometry>
-      <material name="red"/>
-    </visual>
+	<!-- Left Wheel Link  -->
+	<link name='left_wheel'>
 
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-    </inertial>
-  </link>
+		<visual name='left_wheel_visual'>
+			<origin xyz="0.0 0 0" rpy="0 1.5707 1.5707"/>
+			<geometry>
+				<cylinder radius="0.125" length="0.05"/>
+			</geometry>
+			<material name="yellow"/>
+		</visual>
 
-  <joint name="camera_joint" type="fixed">
-    <axis xyz="0 1 0" />
-    <origin xyz="-0.2 0 0.325" rpy="0 0 3.1415"/>
-    <parent link="chassis"/>
-    <child link="camera_link"/>
-  </joint>
-  </xacro:macro>
+		<collision name='collision'>
+			<origin xyz="0.0 0 0" rpy="0 1.5707 1.5707"/>
+			<geometry>
+				<cylinder radius="0.125" length="0.05"/>
+			</geometry>
+		</collision>
 
-  <xacro:camerali camera_link="0.05" />
-  <link name='camera_rgbd_frame'></link>
+		<inertial>
+			<mass value="2"/>
+			<origin xyz="0.0 0 0" rpy="0 1.5707 1.5707"/>
+			<inertia
+			  ixx="0.008229" ixy="0" ixz="0"
+			  iyy="0.008229" iyz="0"
+			  izz="0.015625"
+			/>
+		</inertial>
 
-  <joint name="camera_rgbd_joint" type="fixed" >
-    <parent link="camera_link"/>
-    <child link="camera_rgbd_frame"/>
-    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
-  </joint>
+	</link>
 
-  <!--IMU-->
-  <link name='imu_link'></link>
+	<!-- Right Wheel Joint -->
+	<joint name="right_wheel_hinge" type="continuous" >
+		<parent link="chassis"/>
+		<child link="right_wheel"/>
+		<axis xyz="0 1 0" rpy="0 0 0">
+		</axis>
+		<origin xyz="-0.182 -0.285 0" rpy="0 0 0"/>
+		<limit effort="10000" velocity="1000"/>
+	</joint>
 
-  <joint name="imu_joint" type="fixed" >
-    <parent link="chassis"/>
-    <child link="imu_link"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </joint>
+	<!-- Right Wheel Link -->
+	<link name='right_wheel'>
 
-  <!--Gazeo plugin to link it to ROS-->
-  <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/</robotNamespace>
-    </plugin>
-  </gazebo>
+		<visual name='right_wheel_visual'>
+			<origin xyz="0.0 0 0" rpy="0 1.5707 1.5707"/>
+			<geometry>
+				<cylinder radius="0.125" length="0.05"/>
+			</geometry>
+			<material name="yellow"/>
+		</visual>
+
+
+		<collision name='collision'>
+			<origin xyz="0.0 0 0" rpy="0 1.5707 1.5707"/>
+			<geometry>
+				<cylinder radius="0.125" length="0.05"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="2"/>
+			<origin xyz="0.0 0 0" rpy="0 1.5707 1.5707"/>
+			<inertia
+			  ixx="0.008229" ixy="0" ixz="0"
+			  iyy="0.008229" iyz="0"
+			  izz="0.015625"
+			/>
+		</inertial>
+
+	</link>
+
+	<!-- Mast Joint -->
+	<joint name="mast_hinge" type="fixed" >
+		<parent link="chassis"/>
+		<child link="mast"/>
+		<axis xyz="0 0 0" rpy="0 0 0"/>
+		<origin xyz="0 0 0.559" rpy="0 0 0"/>
+	</joint>
+
+	<!-- Mast Link -->
+	<link name='mast'>
+
+		<visual name='mast_visual'>
+			<origin xyz="0.0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<cylinder radius="0.02" length="1.1"/>
+			</geometry>
+			<material name="yellow"/>
+		</visual>
+
+
+		<collision name='collision'>
+			<origin xyz="0.0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<cylinder radius="0.02" length="1.1"/>
+			</geometry>
+		</collision>
+
+		<inertial>
+			<mass value="2"/>
+			<origin xyz="0.0 0 0" rpy="0 0 0"/>
+			<inertia
+			  ixx="0.201867" ixy="0" ixz="0"
+			  iyy="0.201867" iyz="0"
+			  izz="0.0004"
+			/>
+		</inertial>
+	</link>
+
+	<!-- Camera Joint -->
+  	<joint name="camera_joint" type="fixed">
+    		<axis xyz="0 1 0" />
+    		<origin xyz="0.09 0 0.85" rpy="0 0 0"/>
+    		<parent link="chassis"/>
+    		<child link="camera_link"/>
+  	</joint>
+
+  	<!-- Camera Link -->
+  	<link name="camera_link">
+
+    		<visual>
+      			<origin xyz="0 0 0" rpy="0 0 0"/>
+      			<geometry>
+    				<box size="0.025 0.085 0.01"/>
+      			</geometry>     
+    		</visual>
+
+    		<collision>
+      			<origin xyz="0 0 0" rpy="0 0 0"/>
+      			<geometry>
+    				<box size="0.025 0.085 0.01"/>
+      			</geometry>
+    		</collision>
+
+
+    		<inertial>
+      			<mass value="1e-5" />
+      			<origin xyz="0 0 0" rpy="0 0 0"/>
+      			<inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    		</inertial>
+  	</link>
+
+	<!-- Camera RGBD Joint -->
+	<joint name="camera_rgbd_joint" type="fixed" >
+
+    		<parent link="camera_link"/>
+    		<child link="camera_rgbd_frame"/>
+    		<origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
+  	</joint>
+
+	<!-- Camera RGBD Link -->
+	<link name='camera_rgbd_frame'></link>
+
+ 	<!-- Hokuyo Laser Joint -->
+	<joint name="hokuyo_joint" type="fixed">
+    		<axis xyz="0 1 0" />
+    		<origin xyz="0 0 1.1" rpy="0 0 0"/>
+    		<parent link="chassis"/>
+    		<child link="hokuyo_link"/>
+  	</joint>
+
+  	<!-- Hokuyo Laser Link -->
+  	<link name="hokuyo_link">
+
+    		<visual>
+      			<origin xyz="0 0 0" rpy="0 0 0"/>
+      			<geometry>
+        			<mesh filename="package://gara_simulation/meshes/hokuyo.dae"/>
+      			</geometry>
+    		</visual>
+
+    		<collision>
+      			<origin xyz="0 0 0" rpy="0 0 0"/>
+      			<geometry>
+        			<box size="0.1 0.1 0.1"/>
+      			</geometry>
+    		</collision>
+
+
+    		<inertial>
+      			<mass value="1e-5" />
+      			<origin xyz="0 0 0" rpy="0 0 0"/>
+      			<inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    		</inertial>
+
+  	</link>
 
 </robot>
