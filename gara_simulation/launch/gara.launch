@@ -10,4 +10,21 @@
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
 
+	<node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+		<rosparam command="load" file="$(find gara_simulation)/config/ekf.yaml" />
+
+			<param name="map_frame" value="map"/>
+			<param name="odom_frame" value="gara/odom"/>
+			<param name="base_link_frame" value="base_link"/>
+			<param name="world_frame" value="gara/odom"/>
+
+<!--
+    You either remap on this node, the node that takes in the data, or both!
+    <remap from="odometry/filtered" to=""/>
+    <remap from="accel/filtered" to=""/>
+-->
+
+	</node>
+
+
 </launch>

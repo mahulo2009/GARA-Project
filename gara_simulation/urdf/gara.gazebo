@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
+
 <robot>
 
-  <material name="black">
-    <color rgba="0 0 0 1"/>
-  </material>
-
   <!-- Differential drive controller -->
-  <gazebo>
-    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-      <legacyMode>false</legacyMode>
+	<gazebo>
+
+		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+			<legacyMode>false</legacyMode>
       <alwaysOn>true</alwaysOn>
       <updateRate>10</updateRate>
       <leftJoint>left_wheel_hinge</leftJoint>
@@ -20,18 +18,24 @@
       <odometryTopic>gara/odom</odometryTopic>
       <odometryFrame>gara/odom</odometryFrame>
       <robotBaseFrame>base_link</robotBaseFrame>
+			<publishOdomTF>false</publishOdomTF>
+			<publishTf>true</publishTf>
+
     </plugin>
+
   </gazebo>
 
 	<!-- Coefficients of friction set to 0-->
-  	<gazebo reference="center_wheel">
-		<mu1>0.0</mu1>
-	  	<mu2>0.0</mu2>
-  	</gazebo>
+  <gazebo reference="center_wheel">
 
+		<mu1>0.0</mu1>
+	  <mu2>0.0</mu2>
+
+  </gazebo>
 
   <!-- hokuyo -->
   <gazebo reference="hokuyo_link">
+
     <sensor type="ray" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
@@ -41,8 +45,8 @@
           <horizontal>
             <samples>720</samples>
             <resolution>1</resolution>
-            <min_angle>-1.570796</min_angle>
-            <max_angle>1.570796</max_angle>
+            <min_angle>-3.141592653589793</min_angle>
+            <max_angle>3.141592653589793</max_angle>
           </horizontal>
         </scan>
         <range>
@@ -65,11 +69,14 @@
         <frameName>hokuyo_link</frameName>
       </plugin>
     </sensor>
+
   </gazebo>
 
   <!--Depth Camera (RGB-D)-->
   <gazebo reference="camera_link">
+
     <sensor type="depth" name="camera1">
+
 			<always_on>1</always_on>
       <update_rate>20.0</update_rate>
 			<visualize>true</visualize>
@@ -92,9 +99,9 @@
       	<alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
         <cameraName>camera1</cameraName>
-	<frameName>camera_rgbd_frame</frameName>
+				<frameName>camera_rgbd_frame</frameName>
         <imageTopicName>/camera/color/image_rect_color</imageTopicName>
-	<depthImageTopicName>/camera/depth/image_rect_raw</depthImageTopicName>
+				<depthImageTopicName>/camera/depth/image_rect_raw</depthImageTopicName>
         <pointCloudTopicName>depth/points</pointCloudTopicName>
         <cameraInfoTopicName>/camera/color/camera_info</cameraInfoTopicName>
         <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
@@ -110,12 +117,16 @@
         <Cy>0.0</Cy>
         <focalLength>0.0</focalLength>
       </plugin>
+
     </sensor>
+
   </gazebo>
 
   <!--IMU-->
   <gazebo reference="imu_link">
+
     <gravity>true</gravity>
+
     <sensor name="imu_sensor" type="imu">
       <always_on>true</always_on>
       <update_rate>100</update_rate>
@@ -125,13 +136,14 @@
         <topicName>imu</topicName>
         <bodyName>imu_link</bodyName>
         <updateRateHZ>10.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
+        <gaussianNoise>0.001</gaussianNoise>
         <xyzOffset>0 0 0</xyzOffset>
         <rpyOffset>0 0 0</rpyOffset>
         <frameName>imu_link</frameName>
       </plugin>
       <pose>0 0 0 0 0 0</pose>
     </sensor>
+
   </gazebo>
 
 </robot>

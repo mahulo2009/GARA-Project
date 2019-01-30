@@ -13,7 +13,7 @@
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
 
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+  <include file="$(find gara_simulation)/launch/empty_world.launch">
   	<arg name="world_name" value="$(find gara_simulation)/worlds/gtc.world"/>
   	<arg name="paused" value="$(arg paused)"/>
   	<arg name="use_sim_time" value="$(arg use_sim_time)"/>
