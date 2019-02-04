@@ -18,6 +18,7 @@
 			<param name="base_link_frame" value="base_link"/>
 			<param name="world_frame" value="gara/odom"/>
 
+      <remap from="cmd_vel" to="gara/cmd_vel"/>
 <!--
     You either remap on this node, the node that takes in the data, or both!
     <remap from="odometry/filtered" to=""/>
