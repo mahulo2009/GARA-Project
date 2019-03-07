@@ -57,7 +57,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 100
-      Reference Frame: odom
+      Reference Frame: gara/odom
       Value: true
     - Alpha: 1
       Class: rviz/RobotModel
@@ -267,6 +267,8 @@ Visualization Manager:
           Value: false
         chassis:
           Value: false
+        gara/odom:
+          Value: true
         hokuyo_link:
           Value: false
         imu_link:
@@ -275,8 +277,6 @@ Visualization Manager:
           Value: true
         mast:
           Value: false
-        odom:
-          Value: true
         right_wheel:
           Value: true
       Marker Scale: 1
@@ -285,7 +285,7 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
+        gara/odom:
           base_link:
             chassis:
               camera_link:
@@ -400,7 +400,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: odom
+    Fixed Frame: gara/odom
     Frame Rate: 30
   Name: root
   Tools:

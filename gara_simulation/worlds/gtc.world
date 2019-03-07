@@ -8,18 +8,18 @@
       <uri>model://sun</uri>
     </include>
     <model name="gtcanexbuild">
-      <pose>10 0 0  0 0 0</pose>
+      <pose>-12 22.5 0  0 0 0</pose>
       <static>true</static>
       <link name="body">
         <visual name="visual">
           <geometry>
-            <mesh><uri>model://planta5.dae</uri></mesh>
+            <mesh><uri>model://planta6.dae</uri></mesh>
           </geometry>
         </visual>
         <collision name="collision">
             <geometry>
                 <mesh>
-                    <uri>model://planta5.dae</uri>
+                    <uri>model://planta6.dae</uri>
                 </mesh>
             </geometry>
         </collision>

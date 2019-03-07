@@ -37,4 +37,8 @@
 		<arg name="model" value="$(arg model)"/>
 	</include>
 
+  <include file="$(find gara_simulation)/launch/gara_localization.launch">
+	</include>
+
+
 </launch>
