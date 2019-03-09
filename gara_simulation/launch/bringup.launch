@@ -5,6 +5,7 @@
   <!-- Model -->
   <arg name="model" default="$(find gara_simulation)/urdf/gara.xacro"/>
 
+	<!-- World parameters -->		
   <arg name="world" default="empty"/>
   <arg name="paused" default="false"/>
   <arg name="gui" default="true"/>
@@ -12,13 +13,14 @@
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
 
-  <arg name="rvizconfig" default="$(find gara_simulation)/config/gara.rviz" />
+	<!-- Rviz configuration -->
+  <arg name="rvizconfig" default="$(find gara_simulation)/rviz/gara.rviz" />
 
   <!-- Convert an xacro and put on parameter server -->
-  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
   
   <!-- Launch Gazebo world -->
-  <include file="$(find gara_simulation)/launch/empty_world.launch">
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
   	<arg name="world_name" value="$(find gara_simulation)/worlds/gtc.world"/>
   	<arg name="paused" value="$(arg paused)"/>
   	<arg name="use_sim_time" value="$(arg use_sim_time)"/>
@@ -30,15 +32,10 @@
   <!-- Spawn a robot into Gazebo -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model gara" />
 
+  <!-- Robot state Publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+
   <!--RVIZ launch-->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
-
-  <include file="$(find gara_simulation)/launch/gara_control.launch">
-		<arg name="model" value="$(arg model)"/>
-	</include>
-
-  <include file="$(find gara_simulation)/launch/gara_localization.launch">
-	</include>
-
 
 </launch>

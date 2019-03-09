@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- TODO CHECK INERTIAL COLLISION AND FIXED JOINTS" -->
-
-<robot name="gara" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="gara" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
 	<xacro:include filename="$(find gara_simulation)/urdf/macros.xacro" />
@@ -312,11 +310,11 @@
 		</inertial>
 
 	</link>
-	
+
  	<!-- IMU Joint 	-->
 	<joint name="imu_joint" type="fixed">
 
-		<axis xyz="0 1 0" />
+		
 		<origin xyz="-0.2 0 ${wheelRadius}" rpy="0 0 0"/>
 		<parent link="chassis"/>
 		<child link="imu_link"/>

@@ -2,18 +2,11 @@
 
 <robot>
 
-  <!-- Gazebo ROS control -->
-  <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/gara</robotNamespace>
-    </plugin>
-  </gazebo>
-
   <!-- Differential drive controller -->
   <gazebo>
     <plugin name="differential_drive_controller"  filename="libgazebo_ros_diff_drive.so">
       <robotNamespace>/</robotNamespace>
-    	<alwaysOn>true</alwaysOn>
+      <alwaysOn>true</alwaysOn>
       <updateRate>100</updateRate>
       <leftJoint>left_wheel_hinge</leftJoint>
       <rightJoint>right_wheel_hinge</rightJoint>
@@ -22,32 +15,18 @@
       <torque>20</torque>
       <commandTopic>gara/cmd_vel</commandTopic>
       <odometryTopic>gara/odom</odometryTopic>
-      <odometryFrame>gara/odom</odometryFrame>
+      <odometryFrame>odom_raw</odometryFrame>
       <robotBaseFrame>base_link</robotBaseFrame>
       <legacyMode>false</legacyMode>      
-      <rosDebugLevel>Debug</rosDebugLevel>
+      <rosDebugLevel>Info</rosDebugLevel>
       <publishWheelTF>true</publishWheelTF>
-      <publishWheelJointState>true</publishWheelJointState>
+      <publishWheelJointState>false</publishWheelJointState>
       <wheelAcceleration>5</wheelAcceleration>
       <wheelTorque>20</wheelTorque>
       <publishTf>1</publishTf>
       <odometrySource>encoder</odometrySource>
     </plugin>
   </gazebo>
-
-  <!--
-
-  <gazebo>
-    <plugin name="ground_truth" 
-            filename="libgazebo_ros_p3d.so">
-      <frameName>map</frameName>
-      <bodyName>base_link</bodyName>
-      <topicName>gara/odom</topicName>
-      <updateRate>30.0</updateRate>
-      <gaussianNoise>0.0</gaussianNoise>
-    </plugin>
-  </gazebo>
-  -->
   
  <gazebo reference="chassis">
 
@@ -92,30 +71,6 @@
       <maxVel>1.0</maxVel>
 
   </gazebo>
-
-  <transmission name="left_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="left_wheel_hinge">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="leftMotor">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        <mechanicalReduction>10</mechanicalReduction>
-        <!--mechanicalReduction>1</mechanicalReduction-->
-      </actuator>
-  </transmission>
-
-   <transmission name="right_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="right_wheel_hinge">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="rightMotor">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        <mechanicalReduction>10</mechanicalReduction>
-        <!--mechanicalReduction>1</mechanicalReduction-->
-      </actuator>
-  </transmission>
 
   <!-- hokuyo -->
   <gazebo reference="hokuyo_link">
