@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+
+  	<!-- Model -->
+	  <arg name="model" default="$(find gara_project)/urdf/gara_description.xacro"/>
+
+  	<!-- Convert an xacro and put on parameter server -->
+	  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+		<node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
+    	<param name="port" value="/dev/ttyACM0"/>
+    	<param name="baud" value="115200"/>
+		</node>
+
+
+		<!-- IMU Relay and Filter -->
+    <include file="$(find gara_project)/launch/include/imu/imu.launch" />
+
+
+		<!-- Send robot states to tf -->
+  	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+
+
+</launch>
