@@ -2,25 +2,24 @@
 
 <launch>
 
+	<!-- Serial port teensy -->
+	<node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
+    		<param name="port" value="/dev/ttyACM0"/>
+    		<param name="baud" value="115200"/>
+	</node>
 
-  	<!-- Model -->
-	  <arg name="model" default="$(find gara_project)/urdf/gara_description.xacro"/>
+	<!-- IMU Relay and Filter -->
+    	<include file="$(find gara_project)/launch/include/imu/imu.launch" />
+		
+	<!-- Static tf transforms -->
+	<node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0.18 0 1.06 0 0 0 base_link laser 100" />
+	<node pkg="tf" type="static_transform_publisher" name="base_to_camera_broadcaster" args="0.19 0 0.85 0 0 0 base_link camera_link 100" />
+    	<node pkg="tf" type="static_transform_publisher" name="base_to_imu_broadcaster" args="0.165 -0.2 0 0 0 0 base_link imu_link 100" />
 
-  	<!-- Convert an xacro and put on parameter server -->
-	  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
-
-		<node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
-    	<param name="port" value="/dev/ttyACM0"/>
-    	<param name="baud" value="115200"/>
-		</node>
-
-
-		<!-- IMU Relay and Filter -->
-    <include file="$(find gara_project)/launch/include/imu/imu.launch" />
-
-
-		<!-- Send robot states to tf -->
-  	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
-
+	<!-- Odom-IMU Extended Kalman Filter -->
+    	<node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization"> 
+       		<remap from="odometry/filtered" to="odom" />
+        	<rosparam command="load" file="$(find gara_project)/config/ekf/robot_localization.yaml" />
+    	</node>
 
 </launch>

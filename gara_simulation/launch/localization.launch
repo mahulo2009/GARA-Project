@@ -20,7 +20,7 @@
 		  <param name="approx_sync"       value="false"/> 
 		</node>
 
-    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen">
 
       <!-- Basic RTAB-Map Parameters -->
       <param name="frame_id" type="string" value="base_link"/>
@@ -35,6 +35,9 @@
 
 			<param name="queue_size" type="int" value="100"/>
 
+			<!-- RTAB-Map Output -->
+      <remap from="grid_map" to="/map"/>
+
 			<!-- RTAB-Map's parameters -->
 			<param name="RGBD/NeighborLinkRefining" type="string" value="true"/>
       <param name="RGBD/ProximityBySpace"     type="string" value="true"/>
@@ -48,6 +51,8 @@
       <!-- ICP parameters -->
       <param name="Icp/VoxelSize"                 type="string" value="0.05"/>
       <param name="Icp/MaxCorrespondenceDistance" type="string" value="0.1"/>
+
+			<param name="Mem/IncrementalMemory" type="string" value="false"/>
 
     </node> 
 
