@@ -1,5 +1,5 @@
 local_costmap:
-   global_frame: gara/odom
+   global_frame: odom_raw
    robot_base_frame: base_link
    update_frequency: 2
    publish_frequency: 2
