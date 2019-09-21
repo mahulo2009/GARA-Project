@@ -44,6 +44,11 @@
       <param name="Grid/FromDepth"            type="string" value="false"/> <!-- occupancy grid from lidar -->
       <param name="Reg/Force3DoF"             type="string" value="true"/>
       <param name="Reg/Strategy"              type="string" value="1"/> <!-- 1=ICP -->
+
+      <!-- Optimzation -->
+      <param name="RGBD/OptimizeStrategy" type="string" value="1"/> <!-- g2o=1, GTSAM=2 -->
+      <param name="RGBD/OptimizeRobust" type="string" value="true"/>
+      <param name="RGBD/OptimizeMaxError" type="string" value="0"/> 
           			
       <!-- ICP parameters -->
       <param name="Icp/VoxelSize"                 type="string" value="0.05"/>

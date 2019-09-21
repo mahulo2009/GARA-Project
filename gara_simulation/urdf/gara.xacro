@@ -167,22 +167,22 @@
 	<link name='mast'>
 
 		<visual name='mast_visual'>
-			<origin xyz="0.0 0 -0.559" rpy="0 0 0"/>
+			<origin xyz="0.0 0 0.55" rpy="0 0 0"/>
 			<geometry>
 				<cylinder radius="0.02" length="1.1"/>
 			</geometry>
 		</visual>
 
 		<collision name='collision'>
-			<origin xyz="0.0 0 -0.559" rpy="0 0 0"/>
+			<origin xyz="0.0 0 0.55" rpy="0 0 0"/>
 			<geometry>
 				<cylinder radius="0.02" length="1.1"/>
 			</geometry>
 		</collision>
 
 		<inertial>
-			<origin xyz="0 0 1.1" rpy="0 0 0"/>
-			<mass value="2"/>
+			<origin xyz="0.0 0 0.55" rpy="0 0 0"/>
+			<mass value="0.1"/>
 			<cylinder_inertia 
 				m="0.1" 
 				r="0.02" 
@@ -194,7 +194,7 @@
 	<!-- Mast Joint -->
 	<joint name="mast_hinge" type="fixed" >
 
-		<origin xyz="0 0 ${wheelRadius+1.1}" rpy="0 0 0"/>
+		<origin xyz="0 0 ${wheelRadius+0.009}" rpy="0 0 0"/>
 		<parent link="chassis"/>
 		<child link="mast"/>
 
