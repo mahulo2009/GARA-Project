@@ -8,17 +8,20 @@
 	<!-- Robot Chassis properties -->
 	<xacro:property name="chassisWidth" value="0.018"/>
 	<xacro:property name="chassisRadius" value="0.25"/>
-	<xacro:property name="chassisMass" value="10"/>
+	<xacro:property name="chassisMass" value="0.5"/>
 
 	<!-- Robot Caster wheel properties -->
-	<xacro:property name="casterRadius" value="0.0585"/>
-	<xacro:property name="casterMass" value="1"/>
+	<xacro:property name="casterRadius" value="0.058"/>
+	<xacro:property name="casterMass" value="0.1"/>
 	<xacro:property name="casterOffsetX" value="0.091"/>
 
 	<!-- Differential-drive wheels properties -->
 	<xacro:property name="wheelWidth" value="0.05"/>
 	<xacro:property name="wheelRadius" value="0.125"/>
-	<xacro:property name="wheelMass" value="2"/>
+	<xacro:property name="wheelMass" value="0.1"/>
 	<xacro:property name="wheelOffsetY" value="0.037"/>
+
+	<!-- Differential-drive wheels properties -->
+	<xacro:property name="mastMass" value="0.1"/>	
 
 </robot>

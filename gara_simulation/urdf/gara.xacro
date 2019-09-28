@@ -66,6 +66,7 @@
 		</collision>
 
 		<inertial>
+			<origin xyz="0.0 0 ${casterMass/2.0}" rpy="0 0 0"/>	
  			<mass value="${casterMass}"/>
 			<sphere_inertia 
 				m="${casterMass}" 
@@ -182,16 +183,17 @@
 
 		<inertial>
 			<origin xyz="0.0 0 0.55" rpy="0 0 0"/>
-			<mass value="0.1"/>
+			<mass value="${mastMass}"/>
 			<cylinder_inertia 
-				m="0.1" 
+				m="${mastMass}" 
 				r="0.02" 
 				h="1.1"/>
 		</inertial>
 
 	</link>
 	
-	<!-- Mast Joint -->
+
+	<!-- Mast Joint --> 
 	<joint name="mast_hinge" type="fixed" >
 
 		<origin xyz="0 0 ${wheelRadius+0.009}" rpy="0 0 0"/>
@@ -199,6 +201,7 @@
 		<child link="mast"/>
 
 	</joint>
+	
 	
 	<!-- Camera Link -->
 	<link name="camera_link">
@@ -217,9 +220,9 @@
 		</collision>
 
 		<inertial>
-			<mass value="0.1" />
+			<mass value="0.05" />
 			<box_inertia 
-				m="0.1" 
+				m="0.05" 
 				x="0.025" 
 				y="0.085"
 				z="0.01"/>
@@ -235,11 +238,11 @@
 		<child link="camera_link"/>
 
 	</joint>
-
-	<!-- Camera RGBD Link 	-->
+        
+	<!-- Camera RGBD Link --> 	
 	<link name='camera_rgbd_frame'></link>
 
-	<!-- Camera RGBD Joint -->
+	Camera RGBD Joint 	
 	<joint name="camera_rgbd_joint" type="fixed" >
 
 		<origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
@@ -247,8 +250,8 @@
     	<child link="camera_rgbd_frame"/>
 
   	</joint> 	
-
-	<!-- Hokuyo Laser Link 	-->
+	
+	<!-- Hokuyo Laser Link -->	
 	<link name="hokuyo_link">
 
   		<visual>
@@ -265,9 +268,9 @@
   		</collision>
 
   		<inertial>
-		  	<mass value="0.1" />
+		  	<mass value="0.05" />
 			<box_inertia 
-				m="0.1" 
+				m="0.05" 
 				x="0.1" 
 				y="0.1"
 				z="0.1"/>
@@ -301,9 +304,9 @@
 		</collision>
 
 		<inertial>
-		  	<mass value="0.1" />
+		  	<mass value="0.05" />
 			<box_inertia 
-				m="0.1" 
+				m="0.05" 
 				x="0.01" 
 				y="0.01"
 				z="0.01"/>
@@ -311,14 +314,14 @@
 
 	</link>
 
- 	<!-- IMU Joint 	-->
+ 	<!-- IMU Joint -->	
 	<joint name="imu_joint" type="fixed">
-
 		
 		<origin xyz="-0.2 0 ${wheelRadius}" rpy="0 0 0"/>
 		<parent link="chassis"/>
 		<child link="imu_link"/>
 
   	</joint>
+
   
 </robot>
