@@ -32,6 +32,12 @@
   <!-- Spawn a robot into Gazebo -->
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model gara" />
 
+	<!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+ 		<param name="use_gui" value="false"/>
+    <remap from="robot_description" to="/robot_description"/>
+  </node>
+
   <!-- Robot state Publisher -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
 

@@ -5,9 +5,10 @@
   <!-- Differential drive controller -->
   <gazebo>
     <plugin name="differential_drive_controller"  filename="libgazebo_ros_diff_drive.so">
-      <robotNamespace>/</robotNamespace>
       <alwaysOn>true</alwaysOn>
+      <legacyMode>false</legacyMode>      
       <updateRate>100</updateRate>
+      <robotNamespace>/</robotNamespace>
       <leftJoint>left_wheel_hinge</leftJoint>
       <rightJoint>right_wheel_hinge</rightJoint>
       <wheelSeparation>0.58</wheelSeparation>
@@ -16,15 +17,14 @@
       <commandTopic>gara/cmd_vel</commandTopic>
       <odometryTopic>gara/odom</odometryTopic>
       <odometryFrame>odom_raw</odometryFrame>
-      <robotBaseFrame>base_link</robotBaseFrame>
-      <legacyMode>false</legacyMode>      
-      <rosDebugLevel>Info</rosDebugLevel>
-      <publishWheelTF>true</publishWheelTF>
-      <publishWheelJointState>false</publishWheelJointState>
-      <wheelAcceleration>5</wheelAcceleration>
+      <odometrySource>world</odometrySource>
+			<publishTf>1</publishTf>
+      <rosDebugLevel>na</rosDebugLevel>
+      <wheelAcceleration>0</wheelAcceleration>
       <wheelTorque>20</wheelTorque>
-      <publishTf>1</publishTf>
-      <odometrySource>encoder</odometrySource>
+      <robotBaseFrame>base_link</robotBaseFrame>
+      <publishWheelTF>false</publishWheelTF>
+      <publishWheelJointState>false</publishWheelJointState>    
     </plugin>
   </gazebo>
   

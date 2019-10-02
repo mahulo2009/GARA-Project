@@ -242,7 +242,7 @@
 	<!-- Camera RGBD Link --> 	
 	<link name='camera_rgbd_frame'></link>
 
-	Camera RGBD Joint 	
+	<!-- Camera RGBD Joint -->	
 	<joint name="camera_rgbd_joint" type="fixed" >
 
 		<origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
