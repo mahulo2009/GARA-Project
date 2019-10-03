@@ -282,7 +282,7 @@
 	<joint name="hokuyo_joint" type="fixed">
 
     	<axis xyz="0 1 0" />
-  		<origin xyz="0 0 1.1" rpy="0 0 0"/>
+  		<origin xyz="0 0 ${wheelRadius+0.009+1.1}" rpy="0 0 0"/>
   		<parent link="chassis"/>
   		<child link="hokuyo_link"/>
 
