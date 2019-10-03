@@ -36,6 +36,11 @@
 			<!-- Use the output of rgbd_sync -->
       <remap from="rgbd_image" to="rgbd_image"/>
 
+			<!-- RTAB-Map Output -->
+      <remap from="grid_map" to="/map"/>
+
+
+
 			<!-- This parameter will sync the odom & scan & rgbd image
 			so the topics does not need to have exactly the same timestamp.
 			The rgbd depth & camera info is already syncronized in the rgbd_sync 
