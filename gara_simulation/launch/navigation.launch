@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <launch>
-
-<!-- Move base -->
+  <!-- Move base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find gara_simulation)/config/navigation/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find gara_simulation)/config/navigation/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find gara_simulation)/config/navigation/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find gara_simulation)/config/navigation/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find gara_simulation)/config/navigation/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find gara_simulation)/config/navigation/base_global_planner_params.yaml" command="load" />
+    <rosparam file="$(find gara_simulation)/config/navigation/move_base_params.yaml" command="load" />
 
     <remap from="cmd_vel" to="gara/cmd_vel"/>
     <remap from="odom" to="gara/odom"/>
     <remap from="scan" to="gara/scan"/>
-
-    <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
-    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
-    <param name="controller_frequency" value="10"/>
 
   </node>
 
