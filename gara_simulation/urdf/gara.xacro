@@ -32,7 +32,7 @@
 		<inertial>
 			<origin xyz="0 0 ${wheelRadius}" rpy="0 0 0" />
   			<mass value="${chassisMass}"/>
-			<cylinder_inertia 
+			<xacro:cylinder_inertia 
 				m="${chassisMass}" 
 				r="${chassisRadius}" 
 				h="${chassisWidth}"/>
@@ -68,7 +68,7 @@
 		<inertial>
 			<origin xyz="0.0 0 ${casterMass/2.0}" rpy="0 0 0"/>	
  			<mass value="${casterMass}"/>
-			<sphere_inertia 
+			<xacro:sphere_inertia 
 				m="${casterMass}" 
 				r="${casterRadius}"/>
 		</inertial>
@@ -104,7 +104,7 @@
 		<inertial>
 			<origin xyz="0.0 0 0" rpy="0 1.5707 1.5707"/>
 			<mass value="${wheelMass}"/>
-			<cylinder_inertia 
+			<xacro:cylinder_inertia 
 				m="${wheelMass}" 
 				r="${wheelRadius}" 
 				h="${wheelWidth}"/>
@@ -144,7 +144,7 @@
 		<inertial>
 			<origin xyz="0.0 0 0" rpy="0 1.5707 1.5707"/>
 			<mass value="${wheelMass}"/>
-			<cylinder_inertia 
+			<xacro:cylinder_inertia 
 				m="${wheelMass}" 
 				r="${wheelRadius}" 
 				h="${wheelWidth}"/>
@@ -184,7 +184,7 @@
 		<inertial>
 			<origin xyz="0.0 0 0.55" rpy="0 0 0"/>
 			<mass value="${mastMass}"/>
-			<cylinder_inertia 
+			<xacro:cylinder_inertia 
 				m="${mastMass}" 
 				r="0.02" 
 				h="1.1"/>
@@ -221,7 +221,7 @@
 
 		<inertial>
 			<mass value="0.05" />
-			<box_inertia 
+			<xacro:box_inertia 
 				m="0.05" 
 				x="0.025" 
 				y="0.085"
@@ -269,7 +269,7 @@
 
   		<inertial>
 		  	<mass value="0.05" />
-			<box_inertia 
+			<xacro:box_inertia 
 				m="0.05" 
 				x="0.1" 
 				y="0.1"
@@ -305,7 +305,7 @@
 
 		<inertial>
 		  	<mass value="0.05" />
-			<box_inertia 
+			<xacro:box_inertia 
 				m="0.05" 
 				x="0.01" 
 				y="0.01"
