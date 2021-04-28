@@ -1,8 +1,0 @@
-GlobalPlanner:
-  #Specifies whether or not to allow navfn to create plans that traverse unknown space.
-  allow_unknown: false
-
-  lethal_cost: 253                              # default 253
-  neutral_cost: 66                              # default 50
-  cost_factor: 0.55                              # Factor to multiply each cost from costmap by, default 3.0
-  publish_potential: true                       # Publish Potential Costmap (this is not like the navfn pointcloud2 potential), default true
