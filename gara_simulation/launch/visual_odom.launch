@@ -6,7 +6,7 @@
   <!-- Mapping Node -->
   <group ns="rtabmap">
 
-        <node pkg="rtabmap_ros" type="icp_odometry" name="icp_odometry" output="screen">
+        <node pkg="rtabmap_odom" type="icp_odometry" name="icp_odometry" output="screen">
         
         <remap from="scan"                   to="/gara/scan"/>
         <remap from="odom"                   to="/gara/odom"/>
