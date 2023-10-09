@@ -2,5 +2,6 @@
   <node pkg="gara_project" type="teleop" name="turtlebot_teleop_keyboard"  output="screen">
     <param name="scale_linear" value="0.5" type="double"/>
     <param name="scale_angular" value="1.5" type="double"/>
+    <remap from="car/cmd_vel" to="robot/cmd_vel"/>
   </node>
 </launch>
