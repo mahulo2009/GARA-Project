@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1
+FROM osrf/ros:noetic-desktop-full
+
+# Install utilities and dependencies
+RUN apt update \
+    && apt install -y \
+        wget \
+        git \
+        vim \
+        python-is-python3 \
+        ros-noetic-rtabmap-ros \
+        ros-noetic-global-planner \
+        ros-noetic-dwa-local-planner \
+        ros-noetic-imu-tools \
+    && apt autoremove
+
+# Setup ROS workspace
+ENV CATKIN_WS /root/catkin_ws
+RUN mkdir -p $CATKIN_WS/src \
+    && /bin/bash -c 'source /opt/ros/noetic/setup.bash && cd $CATKIN_WS && catkin_make' \
+    && echo "source $CATKIN_WS/devel/setup.bash" >> ~/.bashrc
+
+# Setup rtabmap libraries path
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/opt/ros/noetic/lib/x86_64-linux-gnu
+
+# Install gara_project package
+COPY . $CATKIN_WS/src/gara_project
+RUN cd $CATKIN_WS && \
+    /bin/bash -c 'source /opt/ros/noetic/setup.bash && catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release'
+
+CMD [ "/sbin/init" ]

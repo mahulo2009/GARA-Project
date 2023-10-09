@@ -1,0 +1,101 @@
+version: "3.9"
+
+networks:
+  gara-network:
+    external: true
+
+services:
+  roscore:
+    image: gara-simulation:latest
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: ros-noetic-roscore
+    hostname: gara-roscore
+    networks: ["gara-network"]
+    ports:
+      - "11311:11311"
+    command: roscore
+
+  sim_gui:
+    image: gara-simulation:latest
+    container_name: ros-noetic-sim-gui
+    networks: ["gara-network"]
+    environment:
+      - ROS_MASTER_URI=http://gara-roscore:11311
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    devices:
+      - /dev/dri:/dev/dri
+    depends_on:
+      - roscore
+    command: /bin/bash -c 'source /opt/ros/noetic/setup.bash && cd && source catkin_ws/devel/setup.bash && roslaunch gara_simulation bringup.launch --wait'
+
+  visual_odom:
+    image: gara-simulation:latest
+    container_name: ros-noetic-visual-odom
+    networks: ["gara-network"]
+    environment:
+      - ROS_MASTER_URI=http://gara-roscore:11311
+    depends_on:
+      - roscore
+    command: /bin/bash -c 'source /opt/ros/noetic/setup.bash && cd && source catkin_ws/devel/setup.bash && roslaunch gara_simulation visual_odom.launch --wait'
+
+  mapping:
+    image: gara-simulation:latest
+    container_name: ros-noetic-mapping
+    networks: ["gara-network"]
+    environment:
+      - ROS_MASTER_URI=http://gara-roscore:11311
+    depends_on:
+      - visual_odom
+    command: /bin/bash -c 'source /opt/ros/noetic/setup.bash && cd && source catkin_ws/devel/setup.bash && roslaunch gara_simulation mapping.launch --wait'
+#    command: rosservice call rtabmap/set_mode_mapping
+
+  localization:
+    image: gara-simulation:latest
+    container_name: ros-noetic-localization
+    networks: ["gara-network"]
+    environment:
+      - ROS_MASTER_URI=http://gara-roscore:11311
+    depends_on:
+      - visual_odom
+    # command: /bin/bash -c 'source /opt/ros/noetic/setup.bash && cd && source catkin_ws/devel/setup.bash && roslaunch gara_simulation localization.launch --wait'
+    command: rosservice call rtabmap/set_mode_localization
+
+  teleop:
+    image: gara-simulation:latest
+    container_name: ros-noetic-teleop
+    networks: ["gara-network"]
+    environment:
+      - ROS_MASTER_URI=http://gara-roscore:11311
+    depends_on:
+      - mapping
+      - sim_gui
+    stdin_open: true
+    tty: true
+    command: /bin/bash -c 'source /opt/ros/noetic/setup.bash && cd && source catkin_ws/devel/setup.bash && roslaunch gara_simulation teleop.launch --wait'
+
+  navigation:
+    image: gara-simulation:latest
+    container_name: ros-noetic-navigation
+    networks: ["gara-network"]
+    environment:
+      - ROS_MASTER_URI=http://gara-roscore:11311
+    depends_on:
+      - localization
+    command: /bin/bash -c 'source /opt/ros/noetic/setup.bash && cd && source catkin_ws/devel/setup.bash && roslaunch gara_simulation navigation.launch --wait'
+
+  # gara-cmd-broadcaster:
+  #   image: gara-simulation:latest
+  #   container_name: ros-noetic-gara-cmd-broadcaster
+  #   networks: ["gara-network"]
+  #   environment:
+  #     - ROS_MASTER_URI=http://gara-roscore:11311
+  #   depends_on:
+  #     - localization
+  #   stdin_open: true
+  #   tty: true
+  #   # command:

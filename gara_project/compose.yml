@@ -1,0 +1,30 @@
+services:
+  rviz:
+    image: gara-project:latest
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: rviz
+    network_mode: host
+    environment:
+      - ROS_MASTER_URI=http://rb1b0-210701aa:11311
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./rviz:/root/.rviz
+    devices:
+      - /dev/dri:/dev/dri
+    command: rosrun rviz rviz -d /root/.rviz/gara.rviz
+#    command: rosrun rqt_graph rqt_graph
+#    command: rqt_console
+
+  teleop:
+    image: gara-project:latest
+    container_name: teleop
+    network_mode: host
+    environment:
+      - ROS_MASTER_URI=http://rb1b0-210701aa:11311
+    stdin_open: true
+    tty: true
+    command: /bin/bash -c 'source /opt/ros/noetic/setup.bash && cd && source catkin_ws/devel/setup.bash && roslaunch gara_project teleop.launch --wait'
